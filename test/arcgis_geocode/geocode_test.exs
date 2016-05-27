@@ -11,4 +11,12 @@ defmodule GeocoderTest do
                          street_number: "463", zip_code: "05446"}}
   end
 
+  test "does not geocode an empty address" do
+    {:error, %{"error" => "An address is required"}} = Geocoder.geocode("")
+  end
+
+  test "does not geocode a nil address" do
+    {:error, %{"error" => "An address is required"}} = Geocoder.geocode(nil)
+  end
+
 end

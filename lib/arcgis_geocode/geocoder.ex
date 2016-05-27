@@ -5,6 +5,8 @@ defmodule ArcgisGeocode.Geocoder do
   @doc """
   Geocodes the given address and returns a map.
   """
+  def geocode(""), do: {:error, %{"error" => "An address is required"}}
+  def geocode(address) when is_nil(address) do {:error, %{"error" => "An address is required"}} end
   def geocode(address) when is_binary(address) do
     case Authenticator.authenticate do
       {:error, response} -> response
@@ -23,8 +25,9 @@ defmodule ArcgisGeocode.Geocoder do
 
 
   defp extract_geocoded_address({:error, reason}), do: {:error, %{"error" => "API #{reason}"}}
-  defp extract_geocoded_address(%{"locations" => [h|_]}) do
-    feature = h["feature"]
+  defp extract_geocoded_address(%{"locations" => []}), do: {:ok, %{}}
+  defp extract_geocoded_address(%{"locations" => [result|_]}) do
+    feature = result["feature"]
     attributes = feature["attributes"]
     {:ok,
       %{lat: feature["geometry"]["x"],
@@ -34,13 +37,13 @@ defmodule ArcgisGeocode.Geocoder do
         city: attributes["City"],
         state: attributes["Region"],
         zip_code: attributes["Postal"],
-        formatted: h["name"]}}
+        formatted: result["name"]}}
   end
 
 
   def get_url(address, token) when is_binary(address) and is_binary(token) do
     address = URI.encode(address)
-    "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find?outFields=AddNum,StName,StType,City,Region,Postal&forStorage=%s&f=json&text=#{address}&token=#{token}"
+    "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find?outFields=AddNum,StName,StType,City,Region,Postal&forStorage=false&f=json&text=#{address}&token=#{token}"
   end
 
 end
