@@ -1,8 +1,14 @@
 defmodule GeocoderTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   doctest ArcgisGeocode.Geocoder
 
   alias ArcgisGeocode.Geocoder
+
+  setup do
+    ArcgisGeocode.Cache.start_link
+    :ok
+  end
+
 
   test "geocodes a good address" do
     geocoded = Geocoder.geocode("463 Mountain View Dr Colchester VT 05446")
