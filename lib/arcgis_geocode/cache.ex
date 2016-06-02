@@ -1,8 +1,6 @@
 defmodule ArcgisGeocode.Cache do
 
-  def start_link do
-    Agent.start_link(fn -> Map.new end, name: __MODULE__)
-  end
+  def start_link, do: Agent.start_link(fn -> Map.new end, name: __MODULE__)
 
   def put(token, expiration) do
     Agent.update(__MODULE__, fn(map) ->
@@ -10,9 +8,7 @@ defmodule ArcgisGeocode.Cache do
     end)
   end
 
-  def get() do
-    Agent.get(__MODULE__, &(&1))
-  end
+  def get(), do: Agent.get(__MODULE__, &(&1))
 
   def clear() do
     Agent.update(__MODULE__, fn(map) ->
