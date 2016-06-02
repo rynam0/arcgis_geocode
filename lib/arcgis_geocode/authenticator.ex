@@ -35,8 +35,7 @@ defmodule ArcgisGeocode.Authenticator do
 
 
   def process_expiration(seconds) when is_number(seconds) do
-    Timex.DateTime.now
-    |> Timex.DateTime.shift(seconds: seconds - 300)
+    Timex.DateTime.now |> Timex.DateTime.shift(seconds: seconds - 300)
   end
 
   def expired?(nil), do: false

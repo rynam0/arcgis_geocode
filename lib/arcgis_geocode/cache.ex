@@ -14,4 +14,10 @@ defmodule ArcgisGeocode.Cache do
     Agent.get(__MODULE__, &(&1))
   end
 
+  def clear() do
+    Agent.update(__MODULE__, fn(map) ->
+      Map.drop(map, ["access_token", "expiration"])
+    end)
+  end
+
 end

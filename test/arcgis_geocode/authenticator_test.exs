@@ -4,11 +4,6 @@ defmodule AuthenticatorTest do
 
   alias ArcgisGeocode.Authenticator
 
-  setup do
-    ArcgisGeocode.Cache.start_link
-    :ok
-  end
-
   test "authenticate returns an access token" do
     assert {:ok, _} = Authenticator.authenticate
   end

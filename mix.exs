@@ -14,7 +14,10 @@ defmodule ArcgisGeocode.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :httpoison, :timex]]
+    [
+      applications: [:logger, :httpoison, :timex],
+      mod: {ArcgisGeocode, []}
+    ]
   end
 
   # Dependencies can be Hex packages:

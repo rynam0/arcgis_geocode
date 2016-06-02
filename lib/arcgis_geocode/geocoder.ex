@@ -3,12 +3,16 @@ defmodule ArcgisGeocode.Geocoder do
   alias ArcgisGeocode.Authenticator
 
   @doc """
-  Geocodes the given address and returns a map.
+  Returns an error response stating that there is no address to geocode.
   """
   def geocode(""), do: {:error, %{"error" => "An address is required"}}
-
-  def geocode(address) when is_nil(address) do {:error, %{"error" => "An address is required"}} end
-
+  @doc """
+  Returns an error response stating that there is no address to geocode.
+  """
+  def geocode(nil), do: {:error, %{"error" => "An address is required"}}
+  @doc """
+  Geocodes the given address and returns a map.
+  """
   def geocode(address) when is_binary(address) do
     {:ok, access_token} = Authenticator.get_token
 
