@@ -7,6 +7,8 @@ defmodule ArcgisGeocode.Mixfile do
      elixir: "~> 1.2",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     test_coverage: [tool: ExCoveralls],
+     preferred_cli_env: ["coveralls": :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test],
      deps: deps]
   end
 
@@ -32,6 +34,7 @@ defmodule ArcgisGeocode.Mixfile do
   defp deps do
     [{:httpoison, "~> 0.8.3"},
      {:poison, "~> 2.0.0"},
-     {:timex, "~> 2.1.6"}]
+     {:timex, "~> 2.1.6"},
+     {:excoveralls, "~> 0.5", only: :test}]
   end
 end

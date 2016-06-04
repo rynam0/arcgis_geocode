@@ -22,4 +22,11 @@ defmodule AuthenticatorTest do
     assert Authenticator.get_token == {:ok, token}
   end
 
+  test "get_token authenticates with expired token" do
+    assert ArcgisGeocode.Cache.put("secret", Timex.DateTime.now) == :ok
+
+    {:ok, _token} = Authenticator.get_token
+    refute Authenticator.get_token == {:ok, "secret"}
+  end
+
 end

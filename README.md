@@ -1,5 +1,10 @@
 # ArcgisGeocode
 
+[![Build Status](https://semaphoreci.com/api/v1/rynam0/arcgis_geocode/branches/master/badge.svg)](https://semaphoreci.com/rynam0/arcgis_geocode)
+
+
+[![Coverage Status](https://coveralls.io/repos/github/rynam0/arcgis_geocode/badge.svg?branch=master)](https://coveralls.io/github/rynam0/arcgis_geocode?branch=master)
+
 **TODO: Add description**
 
 ## Installation
@@ -17,4 +22,3 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
         def application do
           [applications: [:arcgis_geocode]]
         end
-
