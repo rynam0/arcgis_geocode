@@ -1,6 +1,6 @@
 defmodule ArcgisGeocode.Geocoder do
 
-  alias ArcgisGeocode.Authenticator
+  alias ArcgisGeocode.{Authenticator, GeocodedAddress, UsStates}
 
   @doc """
   Returns an error response stating that there is no address to geocode.
@@ -38,12 +38,15 @@ defmodule ArcgisGeocode.Geocoder do
     feature = result["feature"]
     attributes = feature["attributes"]
     {:ok,
-      %{lat: feature["geometry"]["x"],
+      %GeocodedAddress{
+        lat: feature["geometry"]["x"],
         lon: feature["geometry"]["y"],
         street_number: attributes["AddNum"],
-        street: "#{attributes["StName"]} #{attributes["StType"]}",
+        street_name: attributes["StName"],
+        street_type: attributes["StType"],
         city: attributes["City"],
-        state: attributes["Region"],
+        state_name: attributes["Region"],
+        state_abbr: UsStates.get_abbr(attributes["Region"]),
         zip_code: attributes["Postal"],
         formatted: result["name"]}}
   end
