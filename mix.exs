@@ -4,6 +4,8 @@ defmodule ArcgisGeocode.Mixfile do
   def project do
     [app: :arcgis_geocode,
      version: "0.0.1",
+     name: "ArcgisGeocode",
+     source_url: "https://github.com/rynam0/arcgis_geocode",
      elixir: "~> 1.2",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
@@ -41,6 +43,8 @@ defmodule ArcgisGeocode.Mixfile do
     [{:httpoison, "~> 0.8.3"},
      {:poison, "~> 2.0.0"},
      {:timex, "~> 2.1.6"},
-     {:excoveralls, "~> 0.5", only: :test}]
+     {:excoveralls, "~> 0.5", only: :test},
+     {:ex_doc, "~> 0.11.5"},
+     {:earmark, "~> 0.2.1"}]
   end
 end

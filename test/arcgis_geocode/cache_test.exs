@@ -17,9 +17,6 @@ defmodule CacheTest do
     assert Cache.get == %{}
     assert Cache.put(token1, expiration) == :ok
     assert Cache.get == %{"access_token" => token1, "expiration" => expiration}
-
-    assert Cache.put(token2, expiration) == :ok
-    assert Cache.get == %{"access_token" => token2, "expiration" => expiration}
   end
 
 end

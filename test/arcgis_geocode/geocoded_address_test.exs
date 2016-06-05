@@ -1,5 +1,6 @@
 defmodule GeocodedAddressTest do
   use ExUnit.Case, async: true
+  doctest ArcgisGeocode.GeocodedAddress
 
   alias ArcgisGeocode.{GeocodedAddress, UsStates}
 
