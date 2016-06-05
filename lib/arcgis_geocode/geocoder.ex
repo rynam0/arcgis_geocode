@@ -14,12 +14,14 @@ defmodule ArcgisGeocode.Geocoder do
   Geocodes the given address and returns a map.
   """
   def geocode(address) when is_binary(address) do
-    {:ok, access_token} = Authenticator.get_token
-
-    get_url(address, access_token)
-    |> HTTPoison.get
-    |> parse_geocode_response
-    |> extract_geocoded_address
+    case Authenticator.get_token do
+      {:error, auth_error} -> auth_error
+      {:ok, access_token} ->
+        get_url(address, access_token)
+        |> HTTPoison.get
+        |> parse_geocode_response
+        |> extract_geocoded_address
+    end
   end
 
 
