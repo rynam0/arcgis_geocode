@@ -6,7 +6,7 @@ defmodule ArcgisGeocode.Authenticator do
   @grant_type "client_credentials"
 
   @doc """
-  Returns an access_token from the `ArcgisGeocode.Cache` if one exists and is not yet expired.
+  Returns an access token from the `ArcgisGeocode.Cache` if one exists and is not yet expired.
 
   When a token does not yet exist in the cache or the existing token is expired, an authentication request is made and
   the resultant token is stored in the `ArcgisGeocode.Cache` for use in subsequent geocoding requests.
@@ -23,9 +23,9 @@ defmodule ArcgisGeocode.Authenticator do
   end
 
   @doc """
-  Requests an access_token from the ArcGIS API for use in geocoding requests.
+  Requests an access token from the ArcGIS API for use in geocoding requests.
 
-  For successful requests, the resultant access_token is stored in the `ArcgisGeocode.Cache` Agent.
+  For successful requests, the resultant access token is stored in the `ArcgisGeocode.Cache` Agent.
   """
   def authenticate do
     body = {:form, [{:client_id, @client_id}, {:client_secret, @client_secret}, {:grant_type, @grant_type}]}
@@ -42,7 +42,7 @@ defmodule ArcgisGeocode.Authenticator do
     {:ok, access_token}
   end
 
-  def process_expiration(seconds) when is_number(seconds) do
+  defp process_expiration(seconds) when is_number(seconds) do
     Timex.DateTime.now |> Timex.DateTime.shift(seconds: seconds - 300)
   end
 
