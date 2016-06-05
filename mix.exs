@@ -17,7 +17,10 @@ defmodule ArcgisGeocode.Mixfile do
        "coveralls.html": :test,
        "coveralls.semaphore": :test
      ],
-     deps: deps]
+     deps: deps,
+     docs: [
+       main: "ArcgisGeocode"
+     ]]
   end
 
   # Configuration for the OTP application

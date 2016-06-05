@@ -11,7 +11,7 @@ defmodule ArcgisGeocode.Geocoder do
   """
   def geocode(nil), do: {:error, %{"error" => "An address is required"}}
   @doc """
-  Geocodes the given address and returns an [%ArcgisGeocode.GeocodedAddress](./ArcgisGeocode.GeocodedAddress.html) struct.
+  Geocodes the given address and returns an `ArcgisGeocode.GeocodedAddress` struct.
   """
   def geocode(address) when is_binary(address) do
     case Authenticator.get_token do
@@ -54,7 +54,7 @@ defmodule ArcgisGeocode.Geocoder do
   end
 
 
-  def get_url(address, token) when is_binary(address) and is_binary(token) do
+  defp get_url(address, token) when is_binary(address) and is_binary(token) do
     address = URI.encode(address)
     "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find?outFields=AddNum,StName,StType,City,Region,Postal&forStorage=false&f=json&text=#{address}&token=#{token}"
   end

@@ -1,5 +1,6 @@
 defmodule UsStatesTest do
   use ExUnit.Case, async: true
+  doctest ArcgisGeocode.UsStates
 
   alias ArcgisGeocode.UsStates
 

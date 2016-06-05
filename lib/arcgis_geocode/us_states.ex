@@ -13,8 +13,24 @@ defmodule ArcgisGeocode.UsStates do
          "Vermont" => "VT", "Virgin Islands" => "VI", "Virginia" => "VA", "Washington" => "WA", "West Virginia" => "WV",
          "Wisconsin" => "WI", "Wyoming" => "WY"}
 
+  @doc """
+  Gets the US State abbreviation of the given US State name.
+
+  ## Example
+
+      iex>ArcgisGeocode.UsStates.get_abbr("Vermont")
+      "VT"
+  """
   def get_abbr(name), do: Map.get(@map, name)
 
+  @doc """
+  Gets the US State name of the given US State abbreviation.
+
+  ## Example
+
+      iex>ArcgisGeocode.UsStates.get_name("VT")
+      "Vermont"
+  """
   def get_name(abbr) do
     case Enum.find(@map, fn({_, item}) -> item == abbr end) do
       nil -> nil

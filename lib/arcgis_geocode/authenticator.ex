@@ -6,8 +6,10 @@ defmodule ArcgisGeocode.Authenticator do
   @grant_type "client_credentials"
 
   @doc """
-  Returns an access_token from the ArcgisGeocode.Cache if one exists and is not yet expired. Otherwise, an authentication
-  request is made and the resultant token is stored in the ArcgisGeocode.Cache for use in subsequent geocoding requests.
+  Returns an access_token from the `ArcgisGeocode.Cache` if one exists and is not yet expired.
+
+  When a token does not yet exist in the cache or the existing token is expired, an authentication request is made and
+  the resultant token is stored in the `ArcgisGeocode.Cache` for use in subsequent geocoding requests.
   """
   def get_token do
     case ArcgisGeocode.Cache.get do
@@ -21,8 +23,9 @@ defmodule ArcgisGeocode.Authenticator do
   end
 
   @doc """
-  Requests an access_token from the ArcGIS API for use in geocoding requests.  For successful requests, the resultant
-  access_token is stored in the [ArcgisGeocode.Cache](./ArcgisGeocode.Cache.html) Agent.
+  Requests an access_token from the ArcGIS API for use in geocoding requests.
+
+  For successful requests, the resultant access_token is stored in the `ArcgisGeocode.Cache` Agent.
   """
   def authenticate do
     body = {:form, [{:client_id, @client_id}, {:client_secret, @client_secret}, {:grant_type, @grant_type}]}
