@@ -1,11 +1,11 @@
-defmodule GeocodedAddressTest do
+defmodule GeocodeResultTest do
   use ExUnit.Case, async: true
-  doctest ArcgisGeocode.GeocodedAddress
+  doctest ArcgisGeocode.GeocodeResult
 
-  alias ArcgisGeocode.{GeocodedAddress, UsStates}
+  alias ArcgisGeocode.{GeocodeResult, UsStates}
 
   test "can create with US State info" do
-    address = %GeocodedAddress{state_name: "Vermont", state_abbr: UsStates.get_abbr("Vermont")}
+    address = %GeocodeResult{state_name: "Vermont", state_abbr: UsStates.get_abbr("Vermont")}
     assert address.state_name == "Vermont"
     assert address.state_abbr == "VT"
   end

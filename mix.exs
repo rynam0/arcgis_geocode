@@ -20,7 +20,18 @@ defmodule ArcgisGeocode.Mixfile do
      deps: deps,
      docs: [
        main: "ArcgisGeocode"
-     ]]
+     ],
+     package: package(),
+     description: description()]
+  end
+
+  def package do
+    [maintainers: ["@rynam0"],
+     links: %{"GitHub" => "https://github.com/rynam0/arcgis_geocode"}]
+  end
+
+  def description do
+    "An Elixir client library for interacting with the ArcGIS geocoding APIs"
   end
 
   # Configuration for the OTP application
@@ -47,7 +58,8 @@ defmodule ArcgisGeocode.Mixfile do
      {:poison, "~> 2.0.0"},
      {:timex, "~> 2.1.6"},
      {:excoveralls, "~> 0.5", only: :test},
-     {:ex_doc, "~> 0.11.5"},
-     {:earmark, "~> 0.2.1"}]
+     {:ex_doc, "~> 0.11.5", only: :dev},
+     {:earmark, "~> 0.2.1", only: :dev},
+     {:dialyxir, "~> 0.3.3", only: :dev}]
   end
 end

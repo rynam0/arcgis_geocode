@@ -11,6 +11,7 @@ defmodule ArcgisGeocode.Authenticator do
   When a token does not yet exist in the cache or the existing token is expired, an authentication request is made and
   the resultant token is stored in the `ArcgisGeocode.Cache` for use in subsequent geocoding requests.
   """
+  @spec get_token() :: {atom, binary}
   def get_token do
     case ArcgisGeocode.Cache.get do
       %{"access_token" => access_token, "expiration" => expiration} ->
@@ -27,6 +28,7 @@ defmodule ArcgisGeocode.Authenticator do
 
   For successful requests, the resultant access token is stored in the `ArcgisGeocode.Cache` Agent.
   """
+  @spec authenticate() :: {atom, binary}
   def authenticate do
     body = {:form, [{:client_id, @client_id}, {:client_secret, @client_secret}, {:grant_type, @grant_type}]}
     case HTTPoison.post(@auth_url, body) do

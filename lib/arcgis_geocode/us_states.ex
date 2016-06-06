@@ -21,6 +21,7 @@ defmodule ArcgisGeocode.UsStates do
       iex>ArcgisGeocode.UsStates.get_abbr("Vermont")
       "VT"
   """
+  @spec get_abbr(String.t) :: String.t
   def get_abbr(name), do: Map.get(@map, name)
 
   @doc """
@@ -31,6 +32,7 @@ defmodule ArcgisGeocode.UsStates do
       iex>ArcgisGeocode.UsStates.get_name("VT")
       "Vermont"
   """
+  @spec get_name(String.t) :: String.t
   def get_name(abbr) do
     case Enum.find(@map, fn({_, item}) -> item == abbr end) do
       nil -> nil

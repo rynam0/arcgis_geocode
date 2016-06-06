@@ -1,18 +1,19 @@
 defmodule ArcgisGeocode.Geocoder do
 
-  alias ArcgisGeocode.{Authenticator, GeocodedAddress, UsStates}
+  alias ArcgisGeocode.{Authenticator, GeocodeResult, UsStates}
 
   @doc """
   Returns an error response stating that there is no address to geocode.
   """
-  def geocode(""), do: {:error, %{"error" => "An address is required"}}
+  def geocode(""), do: {:error, %GeocodeResult{error: "An address is required"}}
   @doc """
   Returns an error response stating that there is no address to geocode.
   """
-  def geocode(nil), do: {:error, %{"error" => "An address is required"}}
+  def geocode(nil), do: {:error, %GeocodeResult{error: "An address is required"}}
   @doc """
-  Geocodes the given address and returns an `ArcgisGeocode.GeocodedAddress` struct.
+  Geocodes the given address and returns an `ArcgisGeocode.GeocodeResult` struct.
   """
+  @spec geocode(String.t) :: {atom, ArcgisGeocode.GeocodeResult.t}
   def geocode(address) when is_binary(address) do
     case Authenticator.get_token do
       {:error, auth_error} -> auth_error
@@ -40,7 +41,7 @@ defmodule ArcgisGeocode.Geocoder do
     feature = result["feature"]
     attributes = feature["attributes"]
     {:ok,
-      %GeocodedAddress{
+      %GeocodeResult{
         lat: feature["geometry"]["x"],
         lon: feature["geometry"]["y"],
         street_number: attributes["AddNum"],
