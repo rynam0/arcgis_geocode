@@ -1,5 +1,10 @@
 defmodule ArcgisGeocode.Authenticator do
 
+  @moduledoc """
+  Provides the ability to request an access token from the
+  [ArcGIS World Geocoding Service APIs](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-authenticate-a-request.htm).
+  """
+
   @auth_url "https://www.arcgis.com/sharing/rest/oauth2/token"
   @client_id Application.get_env(:arcgis_geocode, :client_id)
   @client_secret Application.get_env(:arcgis_geocode, :client_secret)
@@ -11,7 +16,7 @@ defmodule ArcgisGeocode.Authenticator do
   When a token does not yet exist in the cache or the existing token is expired, an authentication request is made and
   the resultant token is stored in the `ArcgisGeocode.Cache` for use in subsequent geocoding requests.
   """
-  @spec get_token() :: {atom, binary}
+  @spec get_token() :: {atom, String.t}
   def get_token do
     case ArcgisGeocode.Cache.get do
       %{"access_token" => access_token, "expiration" => expiration} ->
@@ -28,7 +33,7 @@ defmodule ArcgisGeocode.Authenticator do
 
   For successful requests, the resultant access token is stored in the `ArcgisGeocode.Cache` Agent.
   """
-  @spec authenticate() :: {atom, binary}
+  @spec authenticate() :: {atom, String.t}
   def authenticate do
     body = {:form, [{:client_id, @client_id}, {:client_secret, @client_secret}, {:grant_type, @grant_type}]}
     case HTTPoison.post(@auth_url, body) do
@@ -38,7 +43,7 @@ defmodule ArcgisGeocode.Authenticator do
   end
 
 
-  defp process_authentication_response(%{"error" => _} = error), do: {:error, error}
+  defp process_authentication_response(%{"error" => error}), do: {:error, error["message"]}
   defp process_authentication_response(%{"access_token" => access_token, "expires_in" => expires_in}) do
     ArcgisGeocode.Cache.put(access_token, process_expiration(expires_in))
     {:ok, access_token}

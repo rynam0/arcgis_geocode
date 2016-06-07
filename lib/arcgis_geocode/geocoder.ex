@@ -1,5 +1,9 @@
 defmodule ArcgisGeocode.Geocoder do
 
+  @moduledoc """
+  Geocodes a given Address and returns an `ArcgisGeocode.GeocodeResult`.
+  """
+
   alias ArcgisGeocode.{Authenticator, GeocodeResult, UsStates}
 
   @doc """
@@ -16,12 +20,12 @@ defmodule ArcgisGeocode.Geocoder do
   @spec geocode(String.t) :: {atom, ArcgisGeocode.GeocodeResult.t}
   def geocode(address) when is_binary(address) do
     case Authenticator.get_token do
-      {:error, auth_error} -> auth_error
       {:ok, access_token} ->
         get_url(address, access_token)
         |> HTTPoison.get
         |> parse_geocode_response
         |> extract_geocoded_address
+      {_, _} = auth_error -> auth_error
     end
   end
 
@@ -29,8 +33,6 @@ defmodule ArcgisGeocode.Geocoder do
   defp parse_geocode_response({:ok, %{body: body}}), do: Poison.Parser.parse!(body)
 
   defp parse_geocode_response({:error, %{reason: reason}}), do: {:error, reason}
-
-  defp parse_geocode_response(%{"error" => _} = error), do: {:error, error}
 
 
   defp extract_geocoded_address({:error, reason}), do: {:error, %{"error" => "API #{reason}"}}

@@ -1,5 +1,9 @@
 defmodule ArcgisGeocode.UsStates do
 
+  @moduledoc """
+  Provides the ability to look up a US State name by its abbreviation and vice-versa.
+  """
+
   @map %{"Alabama" => "AL", "Alaska" => "AK", "American Samoa" => "AS", "Arizona" => "AZ", "Arkansas" => "AR",
          "California" => "CA", "Colorado" => "CO", "Connecticut" => "CT", "Delaware" => "DE",
          "District of Columbia" => "DC", "Florida" => "FL", "Georgia" => "GA", "Guam" => "GU", "Hawaii" => "HI",
