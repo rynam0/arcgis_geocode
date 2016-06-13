@@ -1,5 +1,5 @@
 defmodule AuthenticatorTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case, async: false
   doctest ArcgisGeocode.Authenticator
 
   alias ArcgisGeocode.Authenticator

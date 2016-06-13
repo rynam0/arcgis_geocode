@@ -53,13 +53,7 @@ defmodule ArcgisGeocode.Authenticator do
     Timex.DateTime.now |> Timex.DateTime.shift(seconds: seconds - 300)
   end
 
-  defp expired?(nil), do: false
-  defp expired?(expiration) do
-    if Timex.DateTime.diff(Timex.DateTime.now, expiration) <= 0 do
-      true
-    else
-      false
-    end
-  end
+  defp expired?(nil), do: true
+  defp expired?(expiration), do: Timex.DateTime.diff(Timex.DateTime.now, expiration) <= 0
 
 end
