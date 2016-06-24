@@ -14,8 +14,6 @@ defmodule ArcgisGeocode do
 
   Note: Developers typically won't be calling this function directly.
   """
-  # def start(_type, _args), do: ArcgisGeocode.Cache.start_link
-
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
 
