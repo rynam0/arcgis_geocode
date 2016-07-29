@@ -29,4 +29,18 @@ defmodule AuthenticatorTest do
     refute Authenticator.get_token == {:ok, "secret"}
   end
 
+  test "authentication fails" do
+    # store the good config
+    client_id = Application.get_env(:arcgis_geocode, :client_id)
+
+    # configure with bad client_id
+    Mix.Config.persist(arcgis_geocode: [client_id: "badid"])
+
+    # authenticate
+    {:error, "Invalid client_id"} = Authenticator.get_token
+
+    # restore our config
+    Mix.Config.persist(arcgis_geocode: [client_id: client_id])
+  end
+
 end

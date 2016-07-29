@@ -6,8 +6,6 @@ defmodule ArcgisGeocode.Authenticator do
   """
 
   @auth_url "https://www.arcgis.com/sharing/rest/oauth2/token"
-  @client_id Application.get_env(:arcgis_geocode, :client_id)
-  @client_secret Application.get_env(:arcgis_geocode, :client_secret)
   @grant_type "client_credentials"
 
   @doc """
@@ -35,7 +33,9 @@ defmodule ArcgisGeocode.Authenticator do
   """
   @spec authenticate() :: {atom, String.t}
   def authenticate do
-    body = {:form, [{:client_id, @client_id}, {:client_secret, @client_secret}, {:grant_type, @grant_type}]}
+    body = {:form, [{:client_id, Application.get_env(:arcgis_geocode, :client_id)},
+                    {:client_secret, Application.get_env(:arcgis_geocode, :client_secret)},
+                    {:grant_type, @grant_type}]}
     case HTTPoison.post(@auth_url, body) do
       {:error, response} -> {:error, %{"error" => %{"reason" => response.reason}}}
       {:ok, response} -> Poison.Parser.parse!(response.body) |> process_authentication_response

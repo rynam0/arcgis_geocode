@@ -26,4 +26,18 @@ defmodule GeocoderTest do
     {:error, %GeocodeResult{error: "An address is required"}} = Geocoder.geocode(nil)
   end
 
+
+  test "authentication fails" do
+    # store the good config
+    client_id = Application.get_env(:arcgis_geocode, :client_id)
+
+    # configure with bad client_id
+    Mix.Config.persist(arcgis_geocode: [client_id: "badid"])
+
+    # authenticate
+    {:error, "Invalid client_id"} = Geocoder.geocode("463 Mountain View Dr Colchester VT 05446")
+
+    # restore our config
+    Mix.Config.persist(arcgis_geocode: [client_id: client_id])
+  end
 end
