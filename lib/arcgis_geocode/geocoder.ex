@@ -44,8 +44,8 @@ defmodule ArcgisGeocode.Geocoder do
     attributes = feature["attributes"]
     {:ok,
       %GeocodeResult{
-        lat: feature["geometry"]["x"],
-        lon: feature["geometry"]["y"],
+        lat: feature["geometry"]["y"],
+        lon: feature["geometry"]["x"],
         street_number: attributes["AddNum"],
         street_name: attributes["StName"],
         street_type: attributes["StType"],
