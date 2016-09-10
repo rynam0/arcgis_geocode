@@ -40,7 +40,7 @@ defmodule ArcgisGeocode do
         {:ok,
          %ArcgisGeocode.GeocodeResult{city: "Colchester",
          formatted: "463 Mountain View Dr, Colchester, Vermont, 05446",
-         lat: -73.18369670074134, lon: 44.51295979206185, state_abbr: "VT",
+         lat: 44.51295979206185, lon: -73.18369670074134, state_abbr: "VT",
          state_name: "Vermont", street_name: "Mountain View", street_number: "463",
          street_type: "Dr", zip_code: "05446"}}
 
