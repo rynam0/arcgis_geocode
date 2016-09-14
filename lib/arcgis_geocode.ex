@@ -38,11 +38,10 @@ defmodule ArcgisGeocode do
   ## Examples
         iex>ArcgisGeocode.geocode("463 Mountain View Dr Colchester VT 05446")
         {:ok,
-         %ArcgisGeocode.GeocodeResult{city: "Colchester",
-         formatted: "463 Mountain View Dr, Colchester, Vermont, 05446",
-         lat: 44.51295979206185, lon: -73.18369670074134, state_abbr: "VT",
-         state_name: "Vermont", street_name: "Mountain View", street_number: "463",
-         street_type: "Dr", zip_code: "05446"}}
+         %ArcgisGeocode.GeocodeResult{city: "Colchester", error: nil,
+          formatted: "463 Mountain View Dr, Colchester, Vermont, 05446", lat: 44.51295958611712, lon: -73.18369692467252,
+          state_abbr: "VT", state_name: "Vermont", street_name: "Mountain View", street_number: "463", street_type: "Dr",
+          zip_code: "05446"}}
 
          iex>ArcgisGeocode.geocode(nil)
          {:error,

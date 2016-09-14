@@ -6,6 +6,8 @@ defmodule ArcgisGeocode.Geocoder do
 
   alias ArcgisGeocode.{Authenticator, GeocodeResult, UsStates}
 
+  @find_url "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find?outFields=AddNum,StName,StType,City,Region,Postal&forStorage=false&f=json&text="
+
   @doc """
   Returns an error response stating that there is no address to geocode.
   """
@@ -59,7 +61,7 @@ defmodule ArcgisGeocode.Geocoder do
 
   defp get_url(address, token) when is_binary(address) and is_binary(token) do
     address = URI.encode(address)
-    "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find?outFields=AddNum,StName,StType,City,Region,Postal&forStorage=false&f=json&text=#{address}&token=#{token}"
+    "#{@find_url}#{address}&token=#{token}"
   end
 
 end
