@@ -9,19 +9,9 @@ defmodule ArcgisGeocode.Geocoder do
   @find_url "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find?outFields=AddNum,StName,StType,City,Region,Postal&forStorage=false&f=json&text="
 
   @doc """
-  Returns an error response stating that there is no address to geocode.
-  """
-  @spec geocode(String.t) :: {atom, %ArcgisGeocode.GeocodeResult{}}
-  def geocode(""), do: {:error, %GeocodeResult{error: "An address is required"}}
-  @doc """
-  Returns an error response stating that there is no address to geocode.
-  """
-  # @spec geocode(String.t) :: {:error, %ArcgisGeocode.GeocodeResult{}}
-  def geocode(nil), do: {:error, %GeocodeResult{error: "An address is required"}}
-  @doc """
   Geocodes the given address and returns an `ArcgisGeocode.GeocodeResult` struct.
   """
-  @spec geocode(String.t) :: {atom, %ArcgisGeocode.GeocodeResult{}}
+  @spec geocode(String.t) :: {:ok | :error, %ArcgisGeocode.GeocodeResult{}}
   def geocode(address) when is_binary(address) do
     case Authenticator.get_token do
       {:ok, access_token} ->
@@ -41,7 +31,7 @@ defmodule ArcgisGeocode.Geocoder do
 
   defp extract_geocoded_address({:error, reason}), do: {:error, %{"error" => "API #{reason}"}}
 
-  defp extract_geocoded_address(%{"locations" => []}), do: {:ok, %{}}
+  defp extract_geocoded_address(%{"locations" => []}), do: {:ok, %GeocodeResult{}}
 
   defp extract_geocoded_address(%{"locations" => [result|_]}) do
     feature = result["feature"]

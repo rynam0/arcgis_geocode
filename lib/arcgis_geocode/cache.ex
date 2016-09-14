@@ -13,7 +13,7 @@ defmodule ArcgisGeocode.Cache do
   @doc """
   Stores the given access token and expiration Date for later use.
   """
-  @spec put(String.t, Timex.DateTime.t) :: atom
+  @spec put(String.t, Timex.DateTime.t) :: :ok
   def put(token, expiration) do
     Agent.update(__MODULE__, fn(map) ->
       map |> Map.put("access_token", token) |> Map.put("expiration", expiration)
@@ -29,12 +29,11 @@ defmodule ArcgisGeocode.Cache do
   @doc """
   Clears the access token and expiration entries.
   """
-  @spec clear() :: atom
+  @spec clear() :: :ok
   def clear() do
     Agent.update(__MODULE__, fn(map) ->
       Map.drop(map, ["access_token", "expiration"])
     end)
-    |> IO.inspect
   end
 
 end

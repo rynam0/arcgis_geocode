@@ -19,11 +19,7 @@ defmodule GeocoderTest do
   end
 
   test "does not geocode an empty address" do
-    {:error, %GeocodeResult{error: "An address is required"}} = Geocoder.geocode("")
-  end
-
-  test "does not geocode a nil address" do
-    {:error, %GeocodeResult{error: "An address is required"}} = Geocoder.geocode(nil)
+    {:ok, %GeocodeResult{}} = Geocoder.geocode("")
   end
 
 
