@@ -47,7 +47,7 @@ defmodule ArcgisGeocode do
          {:error,
           %ArcgisGeocode.GeocodeResult{error: "An address is required"}}
   """
-  @spec geocode(String.t) :: {atom, ArcgisGeocode.GeocodeResult.t}
+  @spec geocode(String.t) :: {atom, %ArcgisGeocode.GeocodeResult{}}
   def geocode(address), do: ArcgisGeocode.Geocoder.geocode(address)
 
 end

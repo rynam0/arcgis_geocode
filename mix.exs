@@ -18,6 +18,7 @@ defmodule ArcgisGeocode.Mixfile do
        "coveralls.semaphore": :test
      ],
      deps: deps,
+     dialyzer: [plt_add_apps: [:httpoison, :poison, :timex]],
      docs: [
        main: "ArcgisGeocode"
      ],

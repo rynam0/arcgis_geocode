@@ -11,15 +11,17 @@ defmodule ArcgisGeocode.Geocoder do
   @doc """
   Returns an error response stating that there is no address to geocode.
   """
+  @spec geocode(String.t) :: {atom, %ArcgisGeocode.GeocodeResult{}}
   def geocode(""), do: {:error, %GeocodeResult{error: "An address is required"}}
   @doc """
   Returns an error response stating that there is no address to geocode.
   """
+  # @spec geocode(String.t) :: {:error, %ArcgisGeocode.GeocodeResult{}}
   def geocode(nil), do: {:error, %GeocodeResult{error: "An address is required"}}
   @doc """
   Geocodes the given address and returns an `ArcgisGeocode.GeocodeResult` struct.
   """
-  @spec geocode(String.t) :: {atom, ArcgisGeocode.GeocodeResult.t}
+  @spec geocode(String.t) :: {atom, %ArcgisGeocode.GeocodeResult{}}
   def geocode(address) when is_binary(address) do
     case Authenticator.get_token do
       {:ok, access_token} ->
