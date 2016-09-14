@@ -3,7 +3,7 @@ defmodule ArcgisGeocode.Mixfile do
 
   def project do
     [app: :arcgis_geocode,
-     version: "0.0.1",
+     version: "0.1.0",
      name: "ArcgisGeocode",
      source_url: "https://github.com/rynam0/arcgis_geocode",
      elixir: "~> 1.2",
@@ -27,7 +27,8 @@ defmodule ArcgisGeocode.Mixfile do
   end
 
   def package do
-    [maintainers: ["@rynam0"],
+    [maintainers: ["Ryan Connolly"],
+     licenses: ["MIT"],
      links: %{"GitHub" => "https://github.com/rynam0/arcgis_geocode"}]
   end
 
