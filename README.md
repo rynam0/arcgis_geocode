@@ -7,32 +7,12 @@
 
 ## Installation
 
-When [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
+The package can be installed from Hex as:
 
   1. Add arcgis_geocode to your list of dependencies in `mix.exs`:
 
          def deps do
-           [{:arcgis_geocode, "~> 0.0.1"}]
-         end
-
-  2. Ensure arcgis_geocode is started before your application:
-
-         def application do
-           [applications: [:arcgis_geocode]]
-         end
-
-  3. Configure the arcgis_geocode application to use your ArcGIS credentials:
-
-         config :arcgis_geocode,
-           client_id: "YOUR_CLIENT_ID",
-           client_secret: "YOUR_CLIENT_SECRET"
-
-Until then, the package can be installed as:
-
-  1. Add arcgis_geocode to your list of dependencies in `mix.exs`:
-
-         def deps do
-           [{:arcgis_geocode, git: "https://github.com/rynam0/arcgis_geocode.git"}]
+           [{:arcgis_geocode, "~> 0.1.0"}]
          end
 
   2. Ensure arcgis_geocode is started before your application:
