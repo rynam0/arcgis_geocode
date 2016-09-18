@@ -13,4 +13,9 @@ defmodule ArcgisGeocode.TokenCacheTest do
     assert TokenCache.lookup == {:ok, {token1, expiration}}
   end
 
+  test "can terminate and start" do
+    {:test, :testing} = TokenCache.terminate(:test, :testing)
+    {:ok, _pid} = TokenCache.start_link
+  end
+
 end

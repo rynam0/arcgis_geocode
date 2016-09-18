@@ -6,7 +6,7 @@ defmodule ArcgisGeocode.TokenCache do
   By caching the token, many geocoding requests can be made with the library handling the token behind the scenes.
   """
 
-  @table :token_cache
+  @table :arcgis_geocodetoken_cache
   @key "token"
 
   @doc """
@@ -15,14 +15,13 @@ defmodule ArcgisGeocode.TokenCache do
   def start_link, do: GenServer.start_link(__MODULE__, :ok, [])
 
   def init(_args) do
-    IO.puts "init #{__MODULE__}..."
     ets = :ets.new(@table, [:named_table, :public, read_concurrency: true])
     {:ok, ets}
   end
 
-  def terminate(_reason, _state) do
+  def terminate(reason, state) do
     :ets.delete(@table)
-    {:shutdown, :normal}
+    {reason, state}
   end
 
   @doc """
