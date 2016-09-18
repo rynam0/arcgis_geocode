@@ -4,9 +4,7 @@ defmodule ArcgisGeocode.Mixfile do
   def project do
     [app: :arcgis_geocode,
      version: "0.1.0",
-     name: "ArcgisGeocode",
-     source_url: "https://github.com/rynam0/arcgis_geocode",
-     elixir: "~> 1.2",
+     elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      test_coverage: [tool: ExCoveralls],
@@ -15,13 +13,9 @@ defmodule ArcgisGeocode.Mixfile do
        "coveralls.detail": :test,
        "coveralls.post": :test,
        "coveralls.html": :test,
-       "coveralls.semaphore": :test
-     ],
-     deps: deps,
-     dialyzer: [plt_add_apps: [:httpoison, :poison, :timex]],
-     docs: [
-       main: "ArcgisGeocode"
-     ],
+       "coveralls.semaphore": :test],
+     deps: deps(),
+     dialyzer: [plt_add_apps: [:httpoison, :poison]],
      package: package(),
      description: description()]
   end
@@ -40,10 +34,8 @@ defmodule ArcgisGeocode.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [
-      applications: [:logger, :httpoison, :timex],
-      mod: {ArcgisGeocode, []}
-    ]
+    [applications: [:logger, :httpoison],
+     mod: {ArcgisGeocode, []}]
   end
 
   # Dependencies can be Hex packages:
@@ -56,12 +48,11 @@ defmodule ArcgisGeocode.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:httpoison, "~> 0.8.3"},
-     {:poison, "~> 2.0.0"},
-     {:timex, "~> 2.1.6"},
+    [{:httpoison, "~> 0.9"},
+     {:poison, "~> 2.2"},
      {:excoveralls, "~> 0.5", only: :test},
-     {:ex_doc, "~> 0.11.5", only: :dev},
-     {:earmark, "~> 0.2.1", only: :dev},
-     {:dialyxir, "~> 0.3.3", only: :dev}]
+     {:ex_doc, "~> 0.13", only: :dev},
+     {:earmark, "~> 1.0", only: :dev},
+     {:dialyxir, "~> 0.3", only: :dev}]
   end
 end

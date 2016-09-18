@@ -1,41 +1,49 @@
 defmodule ArcgisGeocode.Geocoder do
 
-  @moduledoc """
-  Geocodes a given Address and returns an `ArcgisGeocode.GeocodeResult`.
-  """
-
   alias ArcgisGeocode.{Authenticator, GeocodeResult, UsStates}
 
-  @find_url "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find?outFields=AddNum,StName,StType,City,Region,Postal&forStorage=false&f=json&text="
-
-  @doc """
-  Geocodes the given address and returns an `ArcgisGeocode.GeocodeResult` struct.
+  @moduledoc """
+  Provides the ability to Geocode an Address using the
+  [ArcGIS World Geocoding Service REST API](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-find.htm)
+  "find" operation.
   """
-  @spec geocode(String.t) :: {:ok | :error, %ArcgisGeocode.GeocodeResult{}}
-  def geocode(address) when is_binary(address) do
-    case Authenticator.get_token do
-      {:ok, access_token} ->
-        get_url(address, access_token)
-        |> HTTPoison.get
-        |> parse_geocode_response
-        |> extract_geocoded_address
-      {_, _} = auth_error -> auth_error
-    end
+
+  @find_url "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find?outFields=AddNum,StName,StType,City,Region,Postal&forStorage=false&f=json"
+
+
+  @doc ~S"""
+    Geocodes an address and returns a `ArcgisGeocode.GeocodeResult` struct.
+
+  ## Examples
+        iex>ArcgisGeocode.Geocoder.geocode("463 Mountain View Dr Colchester VT 05446")
+        {:ok,
+         %ArcgisGeocode.GeocodeResult{city: "Colchester",
+          formatted: "463 Mountain View Dr, Colchester, Vermont, 05446",
+          lat: 44.51295958611712, lon: -73.18369692467252,
+          state_abbr: "VT", state_name: "Vermont", street_name: "Mountain View",
+          street_number: "463", street_type: "Dr", zip_code: "05446"}}
+  """
+  @spec geocode(String.t) :: {:ok, %ArcgisGeocode.GeocodeResult{}} | {:error, any}
+  def geocode(address) when is_binary(address), do: Authenticator.get_token |> handle_token_result(address)
+
+  defp handle_token_result({:error, _} = error, _), do: error
+  defp handle_token_result({:ok, token}, address) do
+    get_url(address, token)
+    |> HTTPoison.get
+    |> handle_get
   end
 
 
-  defp parse_geocode_response({:ok, %{body: body}}), do: Poison.Parser.parse!(body)
+  defp get_url(address, token), do: "#{@find_url}&text=#{URI.encode(address)}&token=#{token}"
 
-  defp parse_geocode_response({:error, %{reason: reason}}), do: {:error, reason}
+  defp handle_get({:ok, response}), do: Poison.Parser.parse!(response.body) |> handle_get_response
+  defp handle_get({:error, response}), do: {:error, response.reason}
 
+  defp handle_get_response(%{"error" => error}), do: {:error, error["message"]}
+  defp handle_get_response(%{"locations" => []}), do: {:ok, nil}
+  defp handle_get_response(%{"locations" => [location|_]}), do: create_result(location)
 
-  defp extract_geocoded_address({:error, reason}), do: {:error, %{"error" => "API #{reason}"}}
-
-  defp extract_geocoded_address(%{"locations" => []}), do: {:ok, %GeocodeResult{}}
-
-  defp extract_geocoded_address(%{"locations" => [result|_]}) do
-    feature = result["feature"]
-    attributes = feature["attributes"]
+  defp create_result(%{"feature" => %{"attributes" => attributes} = feature} = location) do
     {:ok,
       %GeocodeResult{
         lat: feature["geometry"]["y"],
@@ -47,13 +55,7 @@ defmodule ArcgisGeocode.Geocoder do
         state_name: attributes["Region"],
         state_abbr: UsStates.get_abbr(attributes["Region"]),
         zip_code: attributes["Postal"],
-        formatted: result["name"]}}
-  end
-
-
-  defp get_url(address, token) when is_binary(address) and is_binary(token) do
-    address = URI.encode(address)
-    "#{@find_url}#{address}&token=#{token}"
+        formatted: location["name"]}}
   end
 
 end

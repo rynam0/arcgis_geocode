@@ -37,11 +37,9 @@ defmodule ArcgisGeocode.UsStates do
       "Vermont"
   """
   @spec get_name(String.t) :: String.t
-  def get_name(abbr) do
-    case Enum.find(@map, fn({_, item}) -> item == abbr end) do
-      nil -> nil
-      {name, _} -> name
-    end
-  end
+  def get_name(abbr), do: Enum.find(@map, fn({_, item}) -> item == abbr end) |> handle_find
+
+  defp handle_find(nil), do: nil
+  defp handle_find({name, _}), do: name
 
 end

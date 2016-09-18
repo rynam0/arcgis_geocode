@@ -1,4 +1,4 @@
-defmodule UsStatesTest do
+defmodule ArcgisGeocode.UsStatesTest do
   use ExUnit.Case, async: true
   doctest ArcgisGeocode.UsStates
 
