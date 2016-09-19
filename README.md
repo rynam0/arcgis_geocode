@@ -12,7 +12,7 @@ The package can be installed from Hex as:
   1. Add arcgis_geocode to your list of dependencies in `mix.exs`:
 
          def deps do
-           [{:arcgis_geocode, "~> 0.1.0"}]
+           [{:arcgis_geocode, "~> 0.2.0"}]
          end
 
   2. Ensure arcgis_geocode is started before your application:
