@@ -1,5 +1,7 @@
 defmodule ArcgisGeocode.Authenticator do
 
+  alias ArcgisGeocode.TokenCache
+
   @moduledoc """
   Provides the ability to request an access token from the
   [ArcGIS World Geocoding Service APIs](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-authenticate-a-request.htm).
@@ -9,51 +11,45 @@ defmodule ArcgisGeocode.Authenticator do
   @grant_type "client_credentials"
 
   @doc """
-  Returns an access token from the `ArcgisGeocode.Cache` if one exists and is not yet expired.
+  Gets an authentication token for use in ArcGIS World Geocoding Service API operations and stores it for use in
+  subsequent API requests by means of `ArcgisGeocode.TokenCache`.
 
-  When a token does not yet exist in the cache or the existing token is expired, an authentication request is made and
-  the resultant token is stored in the `ArcgisGeocode.Cache` for use in subsequent geocoding requests.
+  This function will first check the `ArcgisGeocode.TokenCache` for a cached authentication token and will return this token
+  if it has not expired.  If the token has expired or no token has been cached, a new token is requested via an
+  authentication request to the ArcGIS World Geocoding Service APIs and this new token is stored.
   """
-  @spec get_token() :: {atom, String.t}
-  def get_token do
-    case ArcgisGeocode.Cache.get do
-      %{"access_token" => access_token, "expiration" => expiration} ->
-        case expired?(expiration) do
-          false -> {:ok, access_token}
-          true -> authenticate
-        end
-      %{} -> authenticate
+  @spec get_token :: {atom, String.t}
+  def get_token, do: TokenCache.lookup |> handle_token_lookup
+
+  defp handle_token_lookup({:ok, nil}), do: authenticate
+  defp handle_token_lookup({:ok, {token, expiration}}) do
+    case expired?(expiration) do
+      true -> authenticate
+      false -> {:ok, token}
     end
-  end
-
-  @doc """
-  Requests an access token from the ArcGIS API for use in geocoding requests.
-
-  For successful requests, the resultant access token is stored in the `ArcgisGeocode.Cache` Agent.
-  """
-  @spec authenticate() :: {atom, String.t}
-  def authenticate do
-    body = {:form, [{:client_id, Application.get_env(:arcgis_geocode, :client_id)},
-                    {:client_secret, Application.get_env(:arcgis_geocode, :client_secret)},
-                    {:grant_type, @grant_type}]}
-    case HTTPoison.post(@auth_url, body) do
-      {:error, response} -> {:error, %{"error" => %{"reason" => response.reason}}}
-      {:ok, response} -> Poison.Parser.parse!(response.body) |> process_authentication_response
-    end
-  end
-
-
-  defp process_authentication_response(%{"error" => error}), do: {:error, error["message"]}
-  defp process_authentication_response(%{"access_token" => access_token, "expires_in" => expires_in}) do
-    ArcgisGeocode.Cache.put(access_token, process_expiration(expires_in))
-    {:ok, access_token}
-  end
-
-  defp process_expiration(seconds) when is_number(seconds) do
-    Timex.DateTime.now |> Timex.DateTime.shift(seconds: seconds - 300)
   end
 
   defp expired?(nil), do: true
-  defp expired?(expiration), do: Timex.DateTime.diff(Timex.DateTime.now, expiration) <= 0
+  defp expired?(expiration), do: :calendar.datetime_to_gregorian_seconds(:calendar.universal_time()) >= expiration
+
+  defp authenticate do
+    body = {:form, [{:client_id, Application.get_env(:arcgis_geocode, :client_id)},
+                    {:client_secret, Application.get_env(:arcgis_geocode, :client_secret)},
+                    {:grant_type, @grant_type}]}
+    HTTPoison.post(@auth_url, body)
+    |> handle_post
+  end
+
+  defp handle_post({:ok, response}), do: Poison.Parser.parse!(response.body) |> handle_post_response
+  defp handle_post({:error, response}), do: {:error, response.reason}
+
+  defp handle_post_response(%{"error" => error}), do: {:error, error["message"]}
+  defp handle_post_response(%{"access_token" => access_token, "expires_in" => expires_in}) do
+    TokenCache.put(access_token, process_expiration(expires_in))
+  end
+
+  defp process_expiration(expires_in_seconds) do
+    :calendar.datetime_to_gregorian_seconds(:calendar.universal_time()) + (expires_in_seconds - 300)
+  end
 
 end

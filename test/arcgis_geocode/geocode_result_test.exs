@@ -1,4 +1,4 @@
-defmodule GeocodeResultTest do
+defmodule ArcgisGeocode.GeocodeResultTest do
   use ExUnit.Case, async: true
   doctest ArcgisGeocode.GeocodeResult
 
