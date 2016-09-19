@@ -3,7 +3,6 @@ defmodule ArcgisGeocode.GeocodeResult do
   @moduledoc """
   Defines a `Struct` that is used for Geocoding responses.
 
-  @type result
 
   ### Example
 

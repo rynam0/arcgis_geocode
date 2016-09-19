@@ -44,7 +44,7 @@ defmodule ArcgisGeocode do
           state_abbr: "VT", state_name: "Vermont", street_name: "Mountain View",
           street_number: "463", street_type: "Dr", zip_code: "05446"}}
   """
-  @spec geocode(String.t) :: {:ok, %ArcgisGeocode.GeocodeResult{}}
+  @spec geocode(String.t) :: {:ok, struct | nil} | {:error, binary}
   def geocode(address), do: ArcgisGeocode.Geocoder.geocode(address)
 
 end

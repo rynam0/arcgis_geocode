@@ -23,7 +23,7 @@ defmodule ArcgisGeocode.Geocoder do
           state_abbr: "VT", state_name: "Vermont", street_name: "Mountain View",
           street_number: "463", street_type: "Dr", zip_code: "05446"}}
   """
-  @spec geocode(String.t) :: {:ok, %ArcgisGeocode.GeocodeResult{}} | {:error, any}
+  @spec geocode(String.t) :: {:ok, struct | nil} | {:error, binary}
   def geocode(address) when is_binary(address), do: Authenticator.get_token |> handle_token_result(address)
 
   defp handle_token_result({:error, _} = error, _), do: error
