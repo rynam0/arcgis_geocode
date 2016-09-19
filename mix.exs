@@ -16,6 +16,8 @@ defmodule ArcgisGeocode.Mixfile do
        "coveralls.semaphore": :test],
      deps: deps(),
      dialyzer: [plt_add_apps: [:httpoison, :poison]],
+     source_url: "https://github.com/rynam0/arcgis_geocode",
+     docs: [extras: ["README.md"]],
      package: package(),
      description: description()]
   end

@@ -10,7 +10,7 @@ defmodule ArcgisGeocode do
 
 
   @doc """
-  Starts the application and the `ArcgisGeocode.Cache` Agent.
+  Starts the application and the `ArcgisGeocode.TokenCache` GenServer.
 
   Note: Developers typically won't be calling this function directly.
   """
