@@ -21,10 +21,10 @@ defmodule ArcgisGeocode.Authenticator do
   @spec get_token :: {atom, String.t}
   def get_token, do: TokenCache.lookup |> handle_token_lookup
 
-  defp handle_token_lookup({:ok, nil}), do: authenticate
+  defp handle_token_lookup({:ok, nil}), do: authenticate()
   defp handle_token_lookup({:ok, {token, expiration}}) do
     case expired?(expiration) do
-      true -> authenticate
+      true -> authenticate()
       false -> {:ok, token}
     end
   end

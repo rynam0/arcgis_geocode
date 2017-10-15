@@ -12,14 +12,14 @@ defmodule ArcgisGeocode.Geocoder do
 
 
   @doc ~S"""
-    Geocodes an address and returns a `ArcgisGeocode.GeocodeResult` struct.
+  Geocodes an address and returns a `ArcgisGeocode.GeocodeResult` struct.
 
   ## Examples
         iex>ArcgisGeocode.Geocoder.geocode("463 Mountain View Dr Colchester VT 05446")
         {:ok,
          %ArcgisGeocode.GeocodeResult{city: "Colchester",
           formatted: "463 Mountain View Dr, Colchester, Vermont, 05446",
-          lat: 44.51295958611712, lon: -73.18369692467252,
+          lat: 44.5129518506838, lon: -73.1836996439205,
           state_abbr: "VT", state_name: "Vermont", street_name: "Mountain View",
           street_number: "463", street_type: "Dr", zip_code: "05446"}}
   """
