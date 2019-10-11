@@ -36,7 +36,7 @@ defmodule ArcgisGeocode.Geocoder do
 
   defp get_url(address, token), do: "#{@find_url}&text=#{URI.encode(address)}&token=#{token}"
 
-  defp handle_get({:ok, response}), do: Poison.Parser.parse!(response.body) |> handle_get_response
+  defp handle_get({:ok, response}), do: Poison.Parser.parse!(response.body, %{}) |> handle_get_response
   defp handle_get({:error, response}), do: {:error, response.reason}
 
   defp handle_get_response(%{"error" => error}), do: {:error, error["message"]}
