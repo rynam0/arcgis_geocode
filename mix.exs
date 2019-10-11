@@ -50,11 +50,13 @@ defmodule ArcgisGeocode.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:httpoison, "~> 0.9"},
-     {:poison, "~> 2.2"},
-     {:excoveralls, "~> 0.5", only: :test},
-     {:ex_doc, "~> 0.13", only: :dev},
-     {:earmark, "~> 1.0", only: :dev},
-     {:dialyxir, "~> 0.3", only: :dev}]
+    [
+      {:httpoison, "~> 1.6"},
+      {:poison, "~> 4.0"},
+      {:excoveralls, "~> 0.5", only: :test},
+      {:ex_doc, "~> 0.21.2", only: :dev},
+      {:earmark, "~> 1.4", only: :dev},
+      {:dialyxir, "~> 0.5.1", only: :dev}
+    ]
   end
 end

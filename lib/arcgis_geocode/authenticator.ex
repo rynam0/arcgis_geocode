@@ -40,7 +40,7 @@ defmodule ArcgisGeocode.Authenticator do
     |> handle_post
   end
 
-  defp handle_post({:ok, response}), do: Poison.Parser.parse!(response.body) |> handle_post_response
+  defp handle_post({:ok, response}), do: Poison.Parser.parse!(response.body, %{}) |> handle_post_response
   defp handle_post({:error, response}), do: {:error, response.reason}
 
   defp handle_post_response(%{"error" => error}), do: {:error, error["message"]}
