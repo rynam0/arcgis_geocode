@@ -8,7 +8,7 @@ defmodule ArcgisGeocode.Geocoder do
   "find" operation.
   """
 
-  @find_url "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find?outFields=AddNum,StName,StType,City,Region,Postal&forStorage=false&f=json"
+  @find_url "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find?outFields=AddNum,StName,StType,City,Region,Postal&forStorage=false&f=json"
 
 
   @doc ~S"""
@@ -19,7 +19,7 @@ defmodule ArcgisGeocode.Geocoder do
         {:ok,
          %ArcgisGeocode.GeocodeResult{city: "Colchester",
           formatted: "463 Mountain View Dr, Colchester, Vermont, 05446",
-          lat: 44.50988024037724, lon: -73.18490967421624,
+          lat: 44.510113990171874, lon: -73.1855000244386,
           state_abbr: "VT", state_name: "Vermont", street_name: "Mountain View",
           street_number: "463", street_type: "Dr", zip_code: "05446"}}
   """
@@ -29,8 +29,8 @@ defmodule ArcgisGeocode.Geocoder do
   defp handle_token_result({:error, _} = error, _), do: error
   defp handle_token_result({:ok, token}, address) do
     get_url(address, token)
-    |> HTTPoison.get
-    |> handle_get
+    |> HTTPoison.get()
+    |> handle_get()
   end
 
 

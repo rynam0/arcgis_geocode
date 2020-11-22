@@ -9,7 +9,7 @@ defmodule ArcgisGeocode.GeocoderTest do
     geocoded = Geocoder.geocode("463 Mountain View Dr Colchester VT 05446")
     assert geocoded == {:ok, %ArcgisGeocode.GeocodeResult{city: "Colchester",
                               formatted: "463 Mountain View Dr, Colchester, Vermont, 05446",
-                              lat: 44.50988024037724, lon: -73.18490967421624,
+                              lat: 44.510113990171874, lon: -73.1855000244386,
                               state_abbr: "VT", state_name: "Vermont",
                               street_name: "Mountain View", street_number: "463",
                               street_type: "Dr", zip_code: "05446"}}

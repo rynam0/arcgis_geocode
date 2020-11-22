@@ -37,7 +37,7 @@ defmodule ArcgisGeocode.Authenticator do
                     {:client_secret, Application.get_env(:arcgis_geocode, :client_secret)},
                     {:grant_type, @grant_type}]}
     HTTPoison.post(@auth_url, body)
-    |> handle_post
+    |> handle_post()
   end
 
   defp handle_post({:ok, response}), do: Poison.Parser.parse!(response.body, %{}) |> handle_post_response
